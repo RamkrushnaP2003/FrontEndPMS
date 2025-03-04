@@ -14,7 +14,7 @@ import {
   INVITE_TO_PROJECT_SUCCESS,
   SEARCH_PROJECT_REQUEST,
   SEARCH_PROJECT_SUCCESS,
-} from "./actionTypes";
+} from "./ActionTypes";
 
 export const fetchProjects =
   ({ category, tag }) =>
