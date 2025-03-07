@@ -1,5 +1,7 @@
 import { API_BASE_URL } from "@/config/api";
 import {
+  GET_USER_FAILURE,
+  GET_USER_SUCCESS,
   GET_USER_REQUEST,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
@@ -17,6 +19,7 @@ export const register = (userData) => async (dispatch) => {
       localStorage.setItem("jwt", data.jwt);
       dispatch({ type: REGISTER_SUCCESS, payload: data });
     }
+    console.log("register success");
     console.log("register success", data);
   } catch (e) {
     console.log(e);
@@ -31,27 +34,41 @@ export const login = (userData) => async (dispatch) => {
       localStorage.setItem("jwt", data.jwt);
       dispatch({ type: LOGIN_SUCCESS, payload: data });
     }
-    console.log("register success", data);
+    console.log("login success", data);
   } catch (e) {
     console.log(e);
   }
 };
 
-export const getUser = (userData) => async (dispatch) => {
+// export const getUser = () => async (dispatch) => {
+//   dispatch({ type: GET_USER_REQUEST });
+//   try {
+//     const { data } = await axios.get(`${API_BASE_URL}/api/users/profile`, {
+//       headers: {
+//         Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+//       },
+//     });
+//     dispatch({ type: GET_USER_SUCCESS, payload: data });
+//     console.log("get user success", data);
+//   } catch (e) {
+//     console.log(e);
+//   }
+// };
+
+export const getUser = () => async (dispatch) => {
   dispatch({ type: GET_USER_REQUEST });
+
   try {
+    const token = localStorage.getItem("jwt");
     const { data } = await axios.get(`${API_BASE_URL}/api/users/profile`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        Authorization: `Bearer ${token}`,
       },
     });
-    if (data.jwt) {
-      localStorage.setItem("jwt", data.jwt);
-      dispatch({ type: GET_USER_SUCCESS, payload: data });
-    }
-    console.log("register success", data);
+    dispatch({ type: GET_USER_SUCCESS, payload: data });
   } catch (e) {
-    console.log(e);
+    console.error("Error fetching user:", e.response?.data || e.message);
+    dispatch({ type: GET_USER_FAILURE, payload: e.message });
   }
 };
 

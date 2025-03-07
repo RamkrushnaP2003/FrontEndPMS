@@ -1,4 +1,3 @@
-import { error } from "console";
 import {
   ACCEPT_INVITATION_REQUEST,
   CREATE_PROJECT_REQUEST,
@@ -39,15 +38,16 @@ export const projectReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        projects: action.payload,
+        projects: action.projects || [],
         error: null,
       };
 
     case SEARCH_PROJECT_SUCCESS:
+      console.log(action);
       return {
         ...state,
         loading: false,
-        searchProjects: action.payload,
+        searchProjects: action.projects,
         error: null,
       };
 
@@ -55,7 +55,7 @@ export const projectReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        projects: [...state.projects, action.project],
+        projects: [...state.projects, action.projects],
         error: null,
       };
 
@@ -72,12 +72,12 @@ export const projectReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         projects: state.projects.filter(
-          (project) => project.id === action.projectId
+          (project) => project.id !== action.payload
         ),
         error: null,
       };
 
     default:
-      state;
+      return state;
   }
 };

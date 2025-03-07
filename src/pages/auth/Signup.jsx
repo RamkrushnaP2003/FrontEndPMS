@@ -13,6 +13,10 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
+import { useDispatch, useSelector } from "react-redux";
+import { register } from "@/redux/auth/Action";
+import { Toaster } from "@/components/ui/sonner";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignupSchema = z
   .object({
@@ -36,15 +40,20 @@ const Signup = () => {
       confirmPassword: "",
     },
   });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { auth } = useSelector((store) => store);
 
   const onSubmit = (data) => {
+    dispatch(register(data));
+    Toaster(`Welcome! ${auth.user.fullName.split(" ")[0]}`);
+    navigate("/");
     console.log("Signup Data:", data);
-    alert("Signup Successful!");
   };
 
   return (
-    <div className="flex justify-center items-center dark:bg-gray-900">
-      <Card className="w-full max-w-md p-4 border-gray-300 shadow-lg">
+    <div className="flex flex-col mt-8 justify-center items-center dark:bg-gray-900">
+      <Card className="w-[24rem] max-w-md p-4 border-gray-300 shadow-lg">
         <CardHeader>
           <CardTitle className="text-center text-2xl font-semibold">
             Sign Up
@@ -133,6 +142,14 @@ const Signup = () => {
           </Form>
         </CardContent>
       </Card>
+      <div className="flex items-center mt-4">
+        <span className="text-gray-700">Already have account? &nbsp;</span>
+        <Link to="/auth/login">
+          <span className="cursor-pointer text-gray-900" variant="ghost">
+            login
+          </span>
+        </Link>
+      </div>
     </div>
   );
 };

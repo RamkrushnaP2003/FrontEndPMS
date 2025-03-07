@@ -16,11 +16,23 @@ import {
   DropdownMenuItem,
 } from "@radix-ui/react-dropdown-menu";
 import { PersonIcon } from "@radix-ui/react-icons";
-import React from "react";
+import React, { useState } from "react";
 import CreateProject from "../projectList/CreateProject";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "@/redux/auth/Action";
 
 const Navbar = () => {
+  const { auth } = useSelector((store) => store);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [user, setUser] = useState(auth.user);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/auth/login");
+  };
   return (
     <div className="border-b py-4 px-5 flex items-center justify-between sticky top-0 z-10 bg-white shadow-md shadow-gray-300">
       <div className="flex items-center gap-3">
@@ -49,22 +61,19 @@ const Navbar = () => {
           </Button>
         </Link>
       </div>
+
       <div className="flex gap-3 items-center">
-        <DropdownMenu>
+        <DropdownMenu className="hover:border-none">
           <DropdownMenuTrigger>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="rounded-full border-2 border-gray-500"
-            >
-              <p className="text-gray-600">U</p>
-            </Button>
+            <Avatar className="cursor-pointer rounded-full border border-gray-300">
+              <AvatarFallback>{auth.user?.fullName?.[0]}</AvatarFallback>
+            </Avatar>
           </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem>Logout</DropdownMenuItem>
+          <DropdownMenuContent className="border border-gray-300 mt-[2px] cursor-pointer">
+            <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <p>Username</p>
+        <p>{user?.fullName?.split(" ")[0]}</p>
       </div>
     </div>
   );

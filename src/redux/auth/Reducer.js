@@ -12,7 +12,7 @@ const initialState = {
   user: null,
   loading: false,
   error: null,
-  jwt: null,
+  jwt: localStorage.getItem("jwt") || null,
   projectSize: 0,
 };
 
@@ -25,14 +25,25 @@ export const authReducer = (state = initialState, action) => {
 
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
-      return { ...state, loading: false, error: null, jwt: action.payload.jwt };
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        jwt: action.payload.jwt,
+        user: action.payload,
+      };
 
     case GET_USER_SUCCESS:
-      return { ...state, loading: false, error: null, user: action.payload };
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        user: action.payload,
+      };
 
     case LOGOUT:
       return initialState;
     default:
-      state;
+      return state;
   }
 };

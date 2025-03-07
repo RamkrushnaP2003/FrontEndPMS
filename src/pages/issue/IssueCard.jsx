@@ -10,17 +10,26 @@ import {
 import { DotsVerticalIcon, PersonIcon } from "@radix-ui/react-icons";
 import React from "react";
 import UserList from "../user/UserList";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { deleteIssue } from "@/redux/issue/Action";
 
-const IssueCard = () => {
+const IssueCard = ({ issue }) => {
+  const { id } = useParams();
+  const dispatch = useDispatch();
+
+  const handleIssueDelete = (id) => {
+    dispatch(deleteIssue(issue.id));
+  };
+
   return (
     <div>
       <Card className="rounded-md py-1 pb-2">
         <CardHeader className={"py-0 pb-1"}>
           <div className="flex justify-between items-center w-fu">
             <CardTitle>
-              <Link to="/project/1/issue/1">
-                <span className="cursor-pointer">Create Navbar</span>
+              <Link to={`/project/${id}/issue/${issue.id}`}>
+                <span className="cursor-pointer">{issue.title}</span>
               </Link>
             </CardTitle>
             <DropdownMenu>
@@ -34,10 +43,23 @@ const IssueCard = () => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem>In Progress</DropdownMenuItem>
-                <DropdownMenuItem>Done</DropdownMenuItem>
-                <DropdownMenuItem>Edit</DropdownMenuItem>
-                <DropdownMenuItem>Delete</DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer">
+                  In Progress
+                </DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer">
+                  Done
+                </DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer">
+                  Edit
+                </DropdownMenuItem>
+                {issue.status === "done" && (
+                  <DropdownMenuItem
+                    onClick={() => handleIssueDelete(issue.id)}
+                    className="cursor-pointer"
+                  >
+                    Delete
+                  </DropdownMenuItem>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

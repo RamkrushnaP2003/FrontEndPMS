@@ -21,19 +21,24 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { tags } from "./ProjectList";
 import { Cross1Icon } from "@radix-ui/react-icons";
+import { useDispatch } from "react-redux";
+import { createProjects } from "@/redux/project/Action";
 
 const CreateProject = () => {
+  const dispatch = useDispatch();
+
   const form = useForm({
     // resolver:zod
     defaultValues: {
       name: "",
       description: "",
       category: "",
-      tags: ["javascript", "react"],
+      tags: [],
     },
   });
 
   const onSubmit = (data) => {
+    dispatch(createProjects(data));
     console.log("Create project data: ", data);
     form.reset();
   };
@@ -130,7 +135,7 @@ const CreateProject = () => {
                     <SelectContent>
                       {tags.map((item, idx) => (
                         <SelectItem
-                          key={idx + item}
+                          key={idx + item + idx + idx + item}
                           value={`${item.toLowerCase()}`}
                         >
                           {item}
