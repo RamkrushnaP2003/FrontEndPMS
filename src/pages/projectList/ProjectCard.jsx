@@ -28,7 +28,7 @@ const ProjectCard = ({ project }) => {
             <div className="flex items-center gap-5">
               <Link to={`/project/${project.id}`}>
                 <h1 className="cursor-pointer font-bold text-lg">
-                  {project.name}
+                  {project?.name}
                 </h1>
               </Link>
               <DotFilledIcon />

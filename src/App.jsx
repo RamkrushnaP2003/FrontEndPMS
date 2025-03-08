@@ -61,6 +61,7 @@ import { getUser } from "./redux/auth/Action";
 import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
 import { fetchProjects } from "./redux/project/Action";
+import UpgradeSuccess from "./pages/upgrade/UpgradeSuccess";
 
 function App() {
   const dispatch = useDispatch();
@@ -90,7 +91,7 @@ function App() {
               element={<IssueDetails />}
             />
             <Route path="/upgrade_plan" element={<Subscription />} />
-            <Route path="*" element={<Navigate to="/home" replace />} />
+            <Route path="/upgrade_plan/success" element={<UpgradeSuccess />} />
           </Routes>
         </div>
       ) : (
@@ -98,7 +99,6 @@ function App() {
           <Route path="/" element={<Navigate to="/auth/login" replace />} />
           <Route path="/auth/login" element={<Login />} />
           <Route path="/auth/signup" element={<Signup />} />
-          <Route path="*" element={<Navigate to="/auth/login" replace />} />
         </Routes>
       )}
     </>

@@ -24,11 +24,14 @@ export const getUserSubscription = (jwt) => {
   };
 };
 
-export const updateSubcription = ({ planType }) => {
+export const upgradeSubcription = ({ planType }) => {
   return async (dispatch) => {
     dispatch({ type: actionTypes.UPGRADE_SUBSCRIPTION_REQUEST });
     try {
       const response = await api.patch(`/api/subscription/upgrade`, null, {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
         params: {
           planType: planType,
         },

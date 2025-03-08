@@ -14,12 +14,12 @@ import {
 } from "@/components/ui/dialog";
 import React, { useEffect } from "react";
 import IssueCard from "./IssueCard";
-import { Filter, PlusIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CreateIssueForm from "./CreateIssueForm";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchIssues } from "@/redux/issue/Action";
 import { useParams } from "react-router-dom";
+import { PlusIcon } from "@radix-ui/react-icons";
 
 const IssueList = ({ title, status }) => {
   const dispatch = useDispatch();

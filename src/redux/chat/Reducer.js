@@ -23,14 +23,14 @@ export const chatReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        messages: action.messages,
+        messages: action.message,
       };
 
     case actionTypes.SEND_MESSAGES_SUCCESS:
       return {
         ...state,
         loading: false,
-        messages: [...state.messages, action.messages],
+        messages: [...state.messages, action.message],
       };
 
     case actionTypes.FETCH_CHAT_BY_PROJECT_SUCCESS:

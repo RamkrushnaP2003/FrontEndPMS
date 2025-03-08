@@ -75,7 +75,6 @@ export const updateIssueStatus = (id, status) => {
     dispatch({ type: actionTypes.UPDATE_ISSUE_STATUS_REQUEST });
     try {
       const response = await api.put(`/api/issues/${id}/status/${status}`);
-      console.log(response, "jsdkn sdkjf nsdfjk nsdfjk");
       dispatch({
         type: actionTypes.UPDATE_ISSUE_STATUS_SUCCESS,
         issue: response.data,
@@ -91,13 +90,14 @@ export const updateIssueStatus = (id, status) => {
 };
 
 export const assignedUserToIssue = (issueId, userId) => {
-  return async ({ dispatch }) => {
+  return async (dispatch) => {
     dispatch({ type: actionTypes.ASSIGNED_ISSUE_TO_USER_REQUEST });
     try {
-      const response = await api.put(`/api/issues/${issueId}/status/${userId}`);
+      const response = await api.put(
+        `/api/issues/${issueId}/assignee/${userId}`
+      );
       dispatch({
         type: actionTypes.ASSIGNED_ISSUE_TO_USER_SUCCESS,
-        // chatId,
         issue: response.data,
       });
     } catch (error) {

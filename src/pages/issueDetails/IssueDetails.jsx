@@ -15,12 +15,13 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchIssueById, updateIssueStatus } from "@/redux/issue/Action";
+import { fetchComments } from "@/redux/comment/Action";
 
 const IssueDetails = () => {
   const { projectId, issueId } = useParams();
   const dispatch = useDispatch();
   const { issue } = useSelector((store) => store);
-  const [status, setStatus] = useState("");
+  const { comment } = useSelector((store) => store);
 
   const handleUpdateIssueStatus = (status) => {
     dispatch(updateIssueStatus(issueId, status));
@@ -39,16 +40,16 @@ const IssueDetails = () => {
 
   useEffect(() => {
     dispatch(fetchIssueById(issueId));
+    dispatch(fetchComments(issueId));
   }, [issueId]);
 
   return (
     <>
-      {" "}
       {issue.issueDetails && (
         <div className="px-20 py-8 text-gray-700  ">
           <div className="flex justify-between border p-10 rounded-lg">
-            <ScrollArea>
-              <div className="h-[80vh] w-[60%]">
+            <ScrollArea className="h-[80vh] w-[60%]">
+              <div className="w-[60%]">
                 <h1 className="text-lg font-semibold text-gray-700">
                   {issue.issueDetails.title}
                 </h1>
@@ -72,8 +73,8 @@ const IssueDetails = () => {
                     <TabsContent value="comments">
                       <CreateCommentForm issueId={issueId} />
                       <div className="mt-8 space-y-6">
-                        {[1, 1, 1, 1].map((item, idx) => (
-                          <CommentCard key={item + idx + idx} />
+                        {comment.comments?.map((item, idx) => (
+                          <CommentCard comment={item} key={item.id + " "} />
                         ))}
                       </div>
                     </TabsContent>
@@ -106,10 +107,22 @@ const IssueDetails = () => {
                       <p className="w-[3rem]">Assignee</p>
                       <div className="flex items-center gap-3">
                         <b>:</b>
-                        <Avatar className="h-8 w-8 text-xs">
-                          <AvatarFallback>X</AvatarFallback>
-                        </Avatar>
-                        <p>Code with ram</p>
+                        {issue.issueDetails?.assignee ? (
+                          <>
+                            <Avatar className="h-8 w-8 ">
+                              <AvatarFallback>
+                                {issue.issueDetails?.assignee?.fullName[0] ||
+                                  "X"}
+                              </AvatarFallback>
+                            </Avatar>
+                            <p>
+                              {issue.issueDetails?.assignee.fullName ||
+                                "Not Assigned"}
+                            </p>
+                          </>
+                        ) : (
+                          <p>Not Assigned</p>
+                        )}
                       </div>
                     </div>
                     <div className="flex gap-10 items-center">
