@@ -15,3 +15,5 @@ createRoot(document.getElementById("root")).render(
     </BrowserRouter>
   </StrictMode>
 );
+
+// https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyDTqI37_ZFU2GUS2bWFVZd2BbIjWAn7ckg

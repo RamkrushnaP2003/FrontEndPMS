@@ -7,15 +7,19 @@ import {
   fetchChatMessages,
   sendMessage,
 } from "@/redux/chat/Action";
+import { store } from "@/redux/Store";
 import { ChatBubbleIcon, PaperPlaneIcon } from "@radix-ui/react-icons";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { map } from "zod";
 
 const Chatbox = () => {
+  const [showTooltip, setShowTooltip] = useState(false);
   const [message, setMessage] = useState("");
-  const { auth } = useSelector((store) => store);
-  const { chat } = useSelector((store) => store);
+  const auth = useSelector((store) => store.auth);
+  const chat = useSelector((store) => store.chat);
+  const project = useSelector((store) => store.project);
   const dispatch = useDispatch();
   const { id } = useParams();
 
@@ -33,14 +37,34 @@ const Chatbox = () => {
   useEffect(() => {
     if (chat.id) dispatch(fetchChatMessages(chat.id));
   }, [id]);
-  console.log(chat.messages);
 
   return (
     <div className="sticky">
       <div className="border rounded-lg">
-        <h1 className="border-b flex items-center p-5 font-semibold">
-          <ChatBubbleIcon /> &nbsp;&nbsp;Chat Box
-        </h1>
+        <div className="border-b flex flex-wrap items-center p-5 font-semibold relative">
+          <div
+            className="truncate w-[100%] overflow-hidden whitespace-nowrap cursor-pointer"
+            onMouseEnter={() => setShowTooltip(true)}
+            onMouseLeave={() => setShowTooltip(false)}
+          >
+            {project.projectDetails?.team?.map((team, index) => (
+              <span key={index}>{team.fullName.split(" ")[0]},&nbsp;</span>
+            ))}
+          </div>
+
+          {/* Tooltip */}
+          {showTooltip && (
+            <div className="absolute z-20 top-10 left-0 bg-gray-900 text-white text-sm p-2 rounded shadow-lg max-w-[90%] m-5">
+              {project.projectDetails?.team?.map((member, idx) => (
+                <span key={"sdnjsdnfndfn" + idx}>
+                  {idx >= 1
+                    ? ", " + member.fullName.split(" ")[0]
+                    : member.fullName.split(" ")[0]}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
         <ScrollArea className="h-[32rem] w-full px-5 py-2 flex gap-3 flex-col">
           {chat.messages &&
             chat.messages?.map((item, idx) =>

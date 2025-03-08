@@ -15,8 +15,8 @@ import { Link } from "react-router-dom";
 
 const ProjectCard = ({ project }) => {
   const dispatch = useDispatch();
-  const handleDelete = (projectId) => {
-    dispatch(deleteProject(projectId));
+  const handleDelete = async (projectId) => {
+    await dispatch(deleteProject(projectId));
   };
 
   const handleUpdate = () => {};

@@ -34,7 +34,6 @@ export const searchProjects = (keyword) => async (dispatch) => {
   dispatch({ type: SEARCH_PROJECT_REQUEST });
   try {
     const { data } = await api.get("/api/projects/search?keyword=" + keyword);
-    console.log("search project", data);
     dispatch({ type: SEARCH_PROJECT_SUCCESS, projects: data });
   } catch (error) {
     console.log(error);
@@ -45,7 +44,7 @@ export const createProjects = (projectData) => async (dispatch) => {
   dispatch({ type: CREATE_PROJECT_REQUEST });
   try {
     const { data } = await api.post("/api/projects", projectData);
-    console.log("create project", data);
+
     dispatch({ type: CREATE_PROJECT_SUCCESS, projects: data });
   } catch (error) {
     console.log(error);
@@ -56,7 +55,6 @@ export const fetchProjectById = (id) => async (dispatch) => {
   dispatch({ type: FETCH_PROJECT_BY_ID_REQUEST });
   try {
     const { data } = await api.get("/api/projects/" + id);
-    console.log("fetch project by id :" + id + " ====> ", data);
     dispatch({ type: FETCH_PROJECT_BY_ID_SUCCESS, project: data });
   } catch (error) {
     console.log(error);
@@ -71,7 +69,7 @@ export const deleteProject = (id) => async (dispatch) => {
         Authorization: `Bearer ${localStorage.getItem("jwt")}`, // Ensure JWT is prefixed with 'Bearer'
       },
     });
-    console.log("delete project by id :" + id + " ====> ", data);
+
     dispatch({ type: DELETE_PROJECT_SUCCESS, payload: id });
   } catch (error) {
     console.log(error);
@@ -87,7 +85,7 @@ export const inviteToProject =
         email,
         projectId,
       });
-      console.log("invite to project by id :" + id + " ====> ", data);
+
       dispatch({ type: INVITE_TO_PROJECT_SUCCESS, payload: data });
     } catch (error) {
       console.log(error);
@@ -105,7 +103,7 @@ export const acceptInvitaion =
         },
       });
       navigate("/project" + data.projectId);
-      console.log("accept invitation project by id :" + id + " ====> ", data);
+
       dispatch({ type: ACCEPT_INVITATION_SUCCESS, payload: data });
     } catch (error) {
       console.log(error);

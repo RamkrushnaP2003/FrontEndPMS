@@ -173,7 +173,7 @@ export const tags = [
 ];
 
 const ProjectList = () => {
-  const { project } = useSelector((store) => store);
+  const project = useSelector((store) => store.project);
 
   const [keyword, setKeyword] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");

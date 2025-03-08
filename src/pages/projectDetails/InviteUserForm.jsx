@@ -20,7 +20,6 @@ const InviteUserForm = () => {
   });
 
   const onSubmit = (data) => {
-    console.log("Email : ", data);
     form.reset();
   };
 

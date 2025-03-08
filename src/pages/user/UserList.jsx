@@ -7,7 +7,6 @@ const UserList = ({ issueDetails }) => {
   const { project } = useSelector((store) => store);
   const dispatch = useDispatch();
   const handleAssigneIsssueToUser = (id) => {
-    console.log(issueDetails.id, id);
     dispatch(assignedUserToIssue(issueDetails.id, id));
   };
   return (

@@ -33,8 +33,6 @@ const Login = ({ onSuccess }) => {
 
   const onSubmit = (data) => {
     dispatch(login(data));
-
-    console.log("Login Data:", data);
     if (localStorage.getItem("jwt")) navigate("/home");
   };
 

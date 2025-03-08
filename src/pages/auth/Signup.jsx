@@ -48,7 +48,6 @@ const Signup = () => {
     dispatch(register(data));
     Toaster(`Welcome! ${auth.user.fullName.split(" ")[0]}`);
     navigate("/");
-    console.log("Signup Data:", data);
   };
 
   return (

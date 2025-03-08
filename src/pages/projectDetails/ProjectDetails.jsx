@@ -19,6 +19,7 @@ import Chatbox from "../chat/Chatbox";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProjectById } from "@/redux/project/Action";
 import { useParams } from "react-router-dom";
+import ChatAndBot from "../chat/ChatAndBot";
 
 const ProjectDetails = () => {
   const dispatch = useDispatch();
@@ -118,7 +119,8 @@ const ProjectDetails = () => {
               </div>
             </ScrollArea>
             <div className="lg:w-[29%] rounded-md sticky right-5 top-10">
-              <Chatbox />
+              {/* <Chatbox /> */}
+              <ChatAndBot />
             </div>
           </div>
         </div>

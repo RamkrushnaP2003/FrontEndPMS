@@ -30,7 +30,7 @@ export const fetchChatByProject = (projectId) => {
         message: response.data,
       });
     } catch (error) {
-      console.log("err in chat : ", error.message);
+      "err in chat : ", error.message;
       dispatch({
         type: actionTypes.FETCH_CHAT_BY_PROJECT_FAILURE,
         error: error.message,

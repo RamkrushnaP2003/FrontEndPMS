@@ -19,8 +19,6 @@ export const register = (userData) => async (dispatch) => {
       localStorage.setItem("jwt", data.jwt);
       dispatch({ type: REGISTER_SUCCESS, payload: data });
     }
-    console.log("register success");
-    console.log("register success", data);
   } catch (e) {
     console.log(e);
   }
@@ -34,7 +32,6 @@ export const login = (userData) => async (dispatch) => {
       localStorage.setItem("jwt", data.jwt);
       dispatch({ type: LOGIN_SUCCESS, payload: data });
     }
-    console.log("login success", data);
   } catch (e) {
     console.log(e);
   }

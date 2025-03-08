@@ -65,7 +65,7 @@ import UpgradeSuccess from "./pages/upgrade/UpgradeSuccess";
 
 function App() {
   const dispatch = useDispatch();
-  const { auth } = useSelector((store) => store);
+  const auth = useSelector((store) => store.auth);
   const location = useLocation(); // Get current route
 
   useEffect(() => {
