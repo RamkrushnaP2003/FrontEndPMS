@@ -43,6 +43,8 @@ const IssueDetails = () => {
     dispatch(fetchComments(issueId));
   }, [issueId]);
 
+  console.log(issue.issueDetails);
+
   return (
     <>
       {issue.issueDetails && (

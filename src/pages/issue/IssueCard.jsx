@@ -44,22 +44,14 @@ const IssueCard = ({ issue }) => {
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuItem className="cursor-pointer">
-                  In Progress
-                </DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer">
-                  Done
-                </DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer">
                   Edit
                 </DropdownMenuItem>
-                {issue.status === "done" && (
-                  <DropdownMenuItem
-                    onClick={() => handleIssueDelete(issue.id)}
-                    className="cursor-pointer"
-                  >
-                    Delete
-                  </DropdownMenuItem>
-                )}
+                <DropdownMenuItem
+                  onClick={() => handleIssueDelete(issue.id)}
+                  className="cursor-pointer"
+                >
+                  Delete
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -71,7 +63,13 @@ const IssueCard = ({ issue }) => {
               <DropdownMenuTrigger>
                 <Avatar className="cursor-pointer">
                   <AvatarFallback>
-                    <PersonIcon />
+                    {issue.assignee ? (
+                      <span className="font-semibold">
+                        {issue.assignee.fullName[0]}
+                      </span>
+                    ) : (
+                      <PersonIcon />
+                    )}
                   </AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>

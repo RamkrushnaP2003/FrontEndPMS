@@ -48,7 +48,10 @@ const Chatbox = () => {
             onMouseLeave={() => setShowTooltip(false)}
           >
             {project.projectDetails?.team?.map((team, index) => (
-              <span key={index}>{team.fullName.split(" ")[0]},&nbsp;</span>
+              <span key={index}>
+                {index > 0 && ", "}
+                {team.fullName.split(" ")[0]}
+              </span>
             ))}
           </div>
 

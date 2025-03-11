@@ -79,6 +79,7 @@ export const updateIssueStatus = (id, status) => {
         type: actionTypes.UPDATE_ISSUE_STATUS_SUCCESS,
         issue: response.data,
       });
+      console.log(response.data, "--------------------------------");
     } catch (error) {
       console.log("err in issue update : ", error.message);
       dispatch({

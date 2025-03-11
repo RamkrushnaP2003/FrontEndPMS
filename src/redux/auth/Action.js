@@ -28,12 +28,21 @@ export const login = (userData) => async (dispatch) => {
   dispatch({ type: LOGIN_REQUEST });
   try {
     const { data } = await axios.post(`${API_BASE_URL}/auth/signin`, userData);
+
     if (data.jwt) {
       localStorage.setItem("jwt", data.jwt);
       dispatch({ type: LOGIN_SUCCESS, payload: data });
+      return { success: true, user: data };
     }
   } catch (e) {
-    console.log(e);
+    dispatch({
+      type: LOGIN_FAILURE,
+      payload: e.response?.data?.message || "Login failed",
+    });
+    return {
+      success: false,
+      error: e.response?.data?.message || "Login failed",
+    };
   }
 };
 

@@ -155,7 +155,8 @@ import {
 } from "@radix-ui/react-icons";
 import React, { useEffect, useState } from "react";
 import ProjectCard from "./ProjectCard";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProjects } from "@/redux/project/Action";
 
 const categories = ["All", "Fullstack", "Frontend", "Backend", "DevOps"];
 export const tags = [
@@ -174,6 +175,11 @@ export const tags = [
 
 const ProjectList = () => {
   const project = useSelector((store) => store.project);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProjects({}));
+  }, []);
 
   const [keyword, setKeyword] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");

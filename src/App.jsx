@@ -62,6 +62,7 @@ import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
 import { fetchProjects } from "./redux/project/Action";
 import UpgradeSuccess from "./pages/upgrade/UpgradeSuccess";
+import AcceptInvitation from "./pages/projectDetails/AcceptInvitation";
 
 function App() {
   const dispatch = useDispatch();
@@ -69,21 +70,22 @@ function App() {
   const location = useLocation(); // Get current route
 
   useEffect(() => {
-    const storedJwt = localStorage.getItem("jwt"); // Retrieve token from localStorage
+    return async () => {
+      const storedJwt = localStorage.getItem("jwt"); // Retrieve token from localStorage
 
-    if (storedJwt && storedJwt !== "null" && storedJwt !== "undefined") {
-      dispatch(getUser());
-      dispatch(fetchProjects({})); // Load projects
-    }
+      if (storedJwt && storedJwt !== "null" && storedJwt !== "undefined") {
+        await dispatch(getUser());
+        await dispatch(fetchProjects({}));
+      }
+    };
   }, []);
 
   return (
     <>
       {auth.user ? (
         <div>
-          <Navbar />
+          <Navbar user={auth.user} />
           <Routes>
-            <Route path="/" element={<Navigate to="/home" replace />} />
             <Route path="/home" element={<Home />} />
             <Route path="/project/:id" element={<ProjectDetails />} />
             <Route
@@ -92,13 +94,14 @@ function App() {
             />
             <Route path="/upgrade_plan" element={<Subscription />} />
             <Route path="/upgrade_plan/success" element={<UpgradeSuccess />} />
+            <Route path="/accept_invitation" element={<AcceptInvitation />} />
           </Routes>
         </div>
       ) : (
         <Routes>
-          <Route path="/" element={<Navigate to="/auth/login" replace />} />
           <Route path="/auth/login" element={<Login />} />
           <Route path="/auth/signup" element={<Signup />} />
+          <Route path="/accept_invitation" element={<AcceptInvitation />} />
         </Routes>
       )}
     </>

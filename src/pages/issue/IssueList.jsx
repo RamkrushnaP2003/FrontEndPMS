@@ -21,36 +21,40 @@ import { fetchIssues } from "@/redux/issue/Action";
 import { useParams } from "react-router-dom";
 import { PlusIcon } from "@radix-ui/react-icons";
 
-const IssueList = ({ title, status }) => {
+const IssueList = ({ title, status, selectedUser }) => {
   const dispatch = useDispatch();
   const { issue } = useSelector((store) => store);
   const { id } = useParams();
 
   useEffect(() => {
     dispatch(fetchIssues(id));
-  }, [id]);
+  }, [id, dispatch]); // Ensure dispatch is included to prevent stale data
+
+  const filteredIssues = issue.issues?.filter(
+    (item) =>
+      item.status === status &&
+      (!selectedUser ||
+        item.assignee?.id?.toString() === selectedUser?.toString()) // Ensure matching ID type
+  );
+
+  console.log(issue.issues);
 
   return (
     <div>
       <Dialog>
-        <Card className="w-full px-1 md:w-[300px] lg:w-[330px]">
+        <Card className="w-full px-1 md:w-[300px] lg:w-[300px] my-4 border-none bg-gray-50 shadow-md">
           <CardHeader>
             <CardTitle>{title}</CardTitle>
           </CardHeader>
-          <CardContent className="">
+          <CardContent>
             <div className="space-y-2">
-              {title == "Todo List" &&
-                issue.issues
-                  ?.filter((issue) => issue.status === status)
-                  .map((item, idx) => <IssueCard issue={item} key={item.id} />)}
-              {title === "In Progress" &&
-                issue.issues
-                  ?.filter((issue) => issue.status == status)
-                  .map((item, idx) => <IssueCard issue={item} key={item.id} />)}
-              {title === "Done" &&
-                issue.issues
-                  ?.filter((issue) => issue.status == status)
-                  .map((item, idx) => <IssueCard issue={item} key={item.id} />)}
+              {filteredIssues.length > 0 ? (
+                filteredIssues.map((item) => (
+                  <IssueCard issue={item} key={item.id} />
+                ))
+              ) : (
+                <p className="text-gray-500">No issues found</p>
+              )}
             </div>
           </CardContent>
           <CardFooter className="w-full">

@@ -14,6 +14,7 @@ import { Eye, EyeOff } from "lucide-react"; // Icons for password visibility
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "@/redux/auth/Action";
 import { Link, useNavigate } from "react-router-dom";
+import { Toaster } from "@/components/ui/sonner";
 
 const Login = ({ onSuccess }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -31,20 +32,26 @@ const Login = ({ onSuccess }) => {
     },
   });
 
-  const onSubmit = (data) => {
-    dispatch(login(data));
-    if (localStorage.getItem("jwt")) navigate("/home");
+  // const onSubmit = (data) => {
+  //   dispatch(login(data));
+  //   navigate("/home");
+  // };
+
+  const onSubmit = async (data) => {
+    const response = await dispatch(login(data));
+
+    if (response.success) {
+      navigate("/home");
+    } else {
+      setShowAlert(true);
+      setTimeout(() => {
+        navigate("/auth/login");
+      }, 1000);
+    }
   };
 
   return (
     <>
-      {/* {showAlert && (
-        <Alert variant="success">
-          <AlertTitle>{`Welcome! ${
-            auth.user.fullName.split(" ")[0]
-          }`}</AlertTitle>
-        </Alert>
-      )} */}
       <div className="flex flex-col mt-8 items-center justify-center ">
         <Card className="w-[24rem] p-4 shadow-md border border-gray-300 bg-white text-gray-900">
           <CardHeader>

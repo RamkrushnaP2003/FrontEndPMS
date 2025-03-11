@@ -44,10 +44,20 @@ const Signup = () => {
   const navigate = useNavigate();
   const { auth } = useSelector((store) => store);
 
-  const onSubmit = (data) => {
-    dispatch(register(data));
-    Toaster(`Welcome! ${auth.user.fullName.split(" ")[0]}`);
-    navigate("/");
+  const onSubmit = async (data) => {
+    try {
+      const response = await dispatch(register(data));
+
+      if (response?.error) {
+        // If registration fails, navigate to login
+        navigate("/auth/login");
+      } else {
+        navigate("/home");
+      }
+    } catch (error) {
+      console.error("Signup error:", error);
+      navigate("/auth/login"); // Fallback to login page on failure
+    }
   };
 
   return (
