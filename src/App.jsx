@@ -63,6 +63,7 @@ import Signup from "./pages/auth/Signup";
 import { fetchProjects } from "./redux/project/Action";
 import UpgradeSuccess from "./pages/upgrade/UpgradeSuccess";
 import AcceptInvitation from "./pages/projectDetails/AcceptInvitation";
+import Chatroom from "./pages/chat/Chatroom";
 
 function App() {
   const dispatch = useDispatch();
@@ -95,6 +96,7 @@ function App() {
             <Route path="/upgrade_plan" element={<Subscription />} />
             <Route path="/upgrade_plan/success" element={<UpgradeSuccess />} />
             <Route path="/accept_invitation" element={<AcceptInvitation />} />
+            <Route path="/project/:id/Chatroom" element={<Chatroom />} />
           </Routes>
         </div>
       ) : (

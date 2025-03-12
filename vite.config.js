@@ -10,4 +10,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  define: {
+    global: "window", // Fix SockJS issue with "global is not defined"
+  },
 });
