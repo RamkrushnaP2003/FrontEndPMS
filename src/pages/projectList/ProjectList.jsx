@@ -169,7 +169,6 @@ export const tags = [
   "MySql",
   "MongoDB",
   "Python",
-  "Flask",
   "DJango",
 ];
 

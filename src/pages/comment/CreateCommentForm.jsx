@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { createComment } from "@/redux/comment/Action";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const CreateCommentForm = ({ issueId }) => {
   const form = useForm({
@@ -26,6 +26,8 @@ const CreateCommentForm = ({ issueId }) => {
     dispatch(createComment({ issueId, content: data.content }));
     form.reset();
   };
+
+  const { auth } = useSelector((store) => store);
   return (
     <div>
       <Form {...form}>
@@ -41,7 +43,9 @@ const CreateCommentForm = ({ issueId }) => {
                 <div className="flex gap-2">
                   <div>
                     <Avatar>
-                      <AvatarFallback>R</AvatarFallback>
+                      <AvatarFallback className="bg-blue-500 text-white">
+                        {auth.user.fullName[0]}
+                      </AvatarFallback>
                     </Avatar>
                   </div>
                   <FormControl>
@@ -57,7 +61,10 @@ const CreateCommentForm = ({ issueId }) => {
               </FormItem>
             )}
           />
-          <Button type="submit" className="">
+          <Button
+            type="submit"
+            className="bg-blue-600 hover:bg-blue-700 cursor-pointer"
+          >
             send
           </Button>
         </form>

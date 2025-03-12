@@ -16,12 +16,13 @@ import { Badge } from "@/components/ui/badge";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchIssueById, updateIssueStatus } from "@/redux/issue/Action";
 import { fetchComments } from "@/redux/comment/Action";
+import { fetchProjectById } from "@/redux/project/Action";
 
 const IssueDetails = () => {
   const { projectId, issueId } = useParams();
   const dispatch = useDispatch();
   const { issue } = useSelector((store) => store);
-  const { comment } = useSelector((store) => store);
+  const { comment, project } = useSelector((store) => store);
 
   const handleUpdateIssueStatus = (status) => {
     dispatch(updateIssueStatus(issueId, status));
@@ -41,53 +42,37 @@ const IssueDetails = () => {
   useEffect(() => {
     dispatch(fetchIssueById(issueId));
     dispatch(fetchComments(issueId));
+    dispatch(fetchProjectById(projectId));
   }, [issueId]);
-
-  console.log(issue.issueDetails);
 
   return (
     <>
       {issue.issueDetails && (
-        <div className="px-20 py-8 text-gray-700  ">
-          <div className="flex justify-between border p-10 rounded-lg">
-            <ScrollArea className="h-[80vh] w-[60%]">
-              <div className="w-[60%]">
-                <h1 className="text-lg font-semibold text-gray-700">
+        <div className="px-4 sm:px-10 lg:px-20 py-8 text-gray-700">
+          <div className="flex flex-col lg:flex-row justify-between border p-5 lg:p-10 rounded-lg bg-white shadow-lg">
+            <ScrollArea className="h-[80vh] lg:w-[60%] w-full">
+              <div className="w-full lg:w-[60%]">
+                <h1 className="text-lg font-semibold text-blue-700">
                   {issue.issueDetails.title}
                 </h1>
                 <div className="py-5">
                   <h2 className="font-semibold text-gray-600">Description</h2>
-                  <p className="text-gray-500 text-sm mgt-3">
+                  <p className="text-gray-500 text-sm mt-3">
                     {issue.issueDetails.description}
                   </p>
                 </div>
                 <div className="mt-5">
-                  <h1 className="pb-3">Activity</h1>
-                  <Tabs defaultValue="comments" className="w-[400px]">
-                    <TabsList className="mb-5">
-                      <TabsTrigger value="all">All</TabsTrigger>
-                      <TabsTrigger value="comments">Comments</TabsTrigger>
-                      <TabsTrigger value="history">History</TabsTrigger>
-                    </TabsList>
-                    <TabsContent value="all">
-                      All make changes to your account heree
-                    </TabsContent>
-                    <TabsContent value="comments">
-                      <CreateCommentForm issueId={issueId} />
-                      <div className="mt-8 space-y-6">
-                        {comment.comments?.map((item, idx) => (
-                          <CommentCard comment={item} key={item.id + " "} />
-                        ))}
-                      </div>
-                    </TabsContent>
-                    <TabsContent value="history">
-                      History Change your password here
-                    </TabsContent>
-                  </Tabs>
+                  <h1 className="pb-3 text-gray-800 font-semibold">Comments</h1>
+                  <CreateCommentForm issueId={issueId} />
+                  <div className="mt-8 space-y-6">
+                    {comment.comments?.map((item, idx) => (
+                      <CommentCard comment={item} key={item.id + " "} />
+                    ))}
+                  </div>
                 </div>
               </div>
             </ScrollArea>
-            <div className="w-full lg:w-[30%] space-y-2">
+            <div className="w-full lg:w-[30%] space-y-2 mt-5 lg:mt-0">
               <Select
                 className="w-full"
                 onValueChange={handleUpdateIssueStatus}
@@ -95,24 +80,24 @@ const IssueDetails = () => {
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Status" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="border-none">
                   <SelectItem value="pending">To-Do</SelectItem>
                   <SelectItem value="in-progress">In Progress</SelectItem>
                   <SelectItem value="done">Done</SelectItem>
                 </SelectContent>
               </Select>
-              <div className="border rounded-lg">
-                <p className="border-b py-3 px-5">Details</p>
+              <div className="border border-gray-200 rounded-lg ">
+                <p className=" py-3 px-5 bg-blue-100 rounded-t-md">Details</p>
                 <div className="p-5">
                   <div className="space-y-7">
                     <div className="flex gap-10 items-center">
-                      <p className="w-[3rem]">Assignee</p>
+                      <p className="w-[5rem] text-gray-900">Assignee</p>
                       <div className="flex items-center gap-3">
                         <b>:</b>
                         {issue.issueDetails?.assignee ? (
                           <>
-                            <Avatar className="h-8 w-8 ">
-                              <AvatarFallback>
+                            <Avatar className="h-8 w-8">
+                              <AvatarFallback className="bg-blue-400 text-white">
                                 {issue.issueDetails?.assignee?.fullName[0] ||
                                   "X"}
                               </AvatarFallback>
@@ -128,35 +113,36 @@ const IssueDetails = () => {
                       </div>
                     </div>
                     <div className="flex gap-10 items-center">
-                      <p className="w-[3rem]">Labels</p>
-
+                      <p className="w-[5rem] text-gray-900">Labels</p>
                       <p>
                         <b>:</b>&nbsp;&nbsp;&nbsp;None
                       </p>
                     </div>
                     <div className="flex gap-10 items-center">
-                      <p className="w-[3rem]">Status</p>
+                      <p className="w-[5rem] text-gray-900">Status</p>
                       <div>
                         <b>:</b>&nbsp;&nbsp;&nbsp;
-                        <Badge>
+                        <Badge className="bg-gray-800 text-white">
                           {getStatusText(issue.issueDetails.status)}
                         </Badge>
                       </div>
                     </div>
                     <div className="flex gap-10 items-center">
-                      <p className="w-[3rem]">Release</p>
+                      <p className="w-[5rem] text-gray-900">Release</p>
                       <p>
                         <b>:</b>&nbsp;&nbsp;&nbsp;10-04-2024
                       </p>
                     </div>
                     <div className="flex gap-10 items-center">
-                      <p className="w-[3rem]">Reporter</p>
+                      <p className="w-[5rem] text-gray-900">Reporter</p>
                       <div className="flex items-center gap-3">
                         <b>:</b>
-                        <Avatar className="h-8 w-8 text-xs">
-                          <AvatarFallback>X</AvatarFallback>
+                        <Avatar className="font-semibold">
+                          <AvatarFallback className="bg-blue-700 text-white">
+                            {project.projectDetails?.owner?.fullName[0]}
+                          </AvatarFallback>
                         </Avatar>
-                        <p>Code with ram</p>
+                        <p>{project.projectDetails?.owner?.fullName}</p>
                       </div>
                     </div>
                   </div>

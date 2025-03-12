@@ -19,7 +19,6 @@ const CreateIssueForm = ({ status, title }) => {
   const { id } = useParams();
 
   const form = useForm({
-    // resolver:zod
     defaultValues: {
       issueName: "",
       description: "",
@@ -39,21 +38,20 @@ const CreateIssueForm = ({ status, title }) => {
   };
 
   return (
-    <div>
+    <div className="p-6 bg-white rounded-lg shadow-lg border border-gray-300">
+      <h2 className="text-xl font-bold text-gray-800 mb-4">{title}</h2>
       <Form {...form}>
-        <form className="space-y-3" onSubmit={form.handleSubmit(onSubmit)}>
+        <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={form.control}
             name="issueName"
-            render={(
-              { field } // ✅ Fixed `feild` to `field`
-            ) => (
+            render={({ field }) => (
               <FormItem>
                 <FormControl>
                   <Input
-                    {...field} // ✅ Spread field props correctly
+                    {...field}
                     type="text"
-                    className="border w-full border-gray-700 py-5 px-5"
+                    className="border w-full border-gray-400 py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Issue Name..."
                   />
                 </FormControl>
@@ -64,15 +62,13 @@ const CreateIssueForm = ({ status, title }) => {
           <FormField
             control={form.control}
             name="description"
-            render={(
-              { field } // ✅ Fixed `feild` to `field`
-            ) => (
+            render={({ field }) => (
               <FormItem>
                 <FormControl>
                   <Input
-                    {...field} // ✅ Spread field props correctly
+                    {...field}
                     type="text"
-                    className="border w-full border-gray-700 py-5 px-5"
+                    className="border w-full border-gray-400 py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Issue Description..."
                   />
                 </FormControl>
@@ -81,8 +77,11 @@ const CreateIssueForm = ({ status, title }) => {
             )}
           />
           <DialogClose>
-            <Button type="submit" className="w-full py-5 px-3">
-              Create issue
+            <Button
+              type="submit"
+              className="w-full py-3 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200"
+            >
+              Create Issue
             </Button>
           </DialogClose>
         </form>

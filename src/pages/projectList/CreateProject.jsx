@@ -19,10 +19,21 @@ import {
 } from "@/components/ui/select";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { tags } from "./ProjectList";
 import { Cross1Icon } from "@radix-ui/react-icons";
 import { useDispatch } from "react-redux";
 import { createProjects } from "@/redux/project/Action";
+
+const tags = [
+  "React",
+  "Angular",
+  "Nextjs",
+  "Spring Boot",
+  "Nodejs",
+  "MySql",
+  "MongoDB",
+  "Python",
+  "DJango",
+];
 
 const CreateProject = () => {
   const dispatch = useDispatch();
@@ -170,7 +181,10 @@ const CreateProject = () => {
                 </p>
               </div>
             ) : (
-              <Button type="submit" className="w-full py-5 px-3">
+              <Button
+                type="submit"
+                className="w-full py-5 px-3 cursor-pointer bg-blue-500 hover:bg-blue-600"
+              >
                 Create Project
               </Button>
             )}
