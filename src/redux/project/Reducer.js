@@ -4,6 +4,8 @@ import {
   CREATE_PROJECT_SUCCESS,
   DELETE_PROJECT_REQUEST,
   DELETE_PROJECT_SUCCESS,
+  EDIT_PROJECT_REQUEST,
+  EDIT_PROJECT_SUCCESS,
   FETCH_PROJECT_BY_ID_REQUEST,
   FETCH_PROJECT_BY_ID_SUCCESS,
   FETCH_PROJECT_REQUEST,
@@ -28,6 +30,7 @@ export const projectReducer = (state = initialState, action) => {
     case FETCH_PROJECT_BY_ID_REQUEST:
     case ACCEPT_INVITATION_REQUEST:
     case INVITE_TO_PROJECT_REQUEST:
+    case EDIT_PROJECT_REQUEST:
       return {
         ...state,
         loading: true,
@@ -39,6 +42,15 @@ export const projectReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         projects: action.projects || [],
+        error: null,
+      };
+
+    case EDIT_PROJECT_SUCCESS:
+      console.log(action);
+      return {
+        ...state,
+        projectDetails: action.updateProject,
+        loading: false,
         error: null,
       };
 

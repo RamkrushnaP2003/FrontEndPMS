@@ -30,8 +30,6 @@ const IssueList = ({ title, status, selectedUser }) => {
         item.assignee?.id?.toString() === selectedUser?.toString()) // Ensure matching ID type
   );
 
-  console.log(issue.issues);
-
   return (
     <div className="bg-gray-100 border border-gray-200 rounded-lg shadow-lg">
       <Dialog>

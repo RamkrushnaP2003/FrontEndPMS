@@ -51,9 +51,6 @@ const IssueCard = ({ issue }) => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="bg-white shadow-md border border-gray-200 rounded-lg">
-              <DropdownMenuItem className="cursor-pointer hover:bg-gray-100 transition px-4 py-2">
-                Edit
-              </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={handleIssueDelete}
                 className="cursor-pointer hover:bg-red-100 text-red-600 transition px-4 py-2"

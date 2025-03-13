@@ -6,6 +6,9 @@ import {
   CREATE_PROJECT_SUCCESS,
   DELETE_PROJECT_REQUEST,
   DELETE_PROJECT_SUCCESS,
+  EDIT_PROJECT_FAILURE,
+  EDIT_PROJECT_REQUEST,
+  EDIT_PROJECT_SUCCESS,
   FETCH_PROJECT_BY_ID_REQUEST,
   FETCH_PROJECT_BY_ID_SUCCESS,
   FETCH_PROJECT_REQUEST,
@@ -109,3 +112,25 @@ export const acceptInvitaion =
       console.log(error);
     }
   };
+
+export const editProjectById = (updatedProjectDetails, projectId) => {
+  return async (dispatch) => {
+    dispatch({ type: "EDIT_PROJECT_REQUEST" });
+
+    try {
+      const { data } = await api.put(
+        `/api/projects/${projectId}/update`,
+        updatedProjectDetails,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+          },
+        }
+      );
+      dispatch({ type: "EDIT_PROJECT_SUCCESS", updateProject: data });
+    } catch (err) {
+      dispatch({ type: "EDIT_PROJECT_FAILURE", error: err.message });
+      console.error(err.message);
+    }
+  };
+};

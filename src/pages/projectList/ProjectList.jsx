@@ -228,19 +228,25 @@ const ProjectList = () => {
   return (
     <>
       {project && (
-        <div className="relative px-5 lg:px-0 lg:flex gap-5 justify-center py-5">
-          <section className="filter">
-            <Card className="p-5 sticky top-10">
-              <div className="flex justify-between items-center pl-2 lg:w-[20rem]">
-                <p className="text-2xl tracking-wider">Filter</p>
-                <Button variant="ghost" size="icon">
-                  <MixerHorizontalIcon />
+        <div className="relative px-5 lg:px-0 w-[80%] m-auto md:w-[80%] lg:flex gap-6 justify-center py-6">
+          {/* Sidebar Filter */}
+          <section className="filter lg:w-[26%]">
+            <Card className="px-4 sticky top-10 shadow-md border border-gray-200 rounded-lg bg-white">
+              <div className="flex justify-between items-center pl-2">
+                <p className="text-2xl font-semibold text-gray-800">Filters</p>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="hover:bg-gray-100"
+                >
+                  <MixerHorizontalIcon className="text-gray-600 w-5 h-5" />
                 </Button>
               </div>
               <CardContent className="mt-5">
                 <ScrollArea className="space-y-7 h-[70vh]">
+                  {/* Category Filter */}
                   <div>
-                    <h1 className="pb-3 text-xl text-gray-600 border-b">
+                    <h1 className="pb-3 text-lg text-gray-700 border-b">
                       Category
                     </h1>
                     <div className="pt-5">
@@ -250,19 +256,32 @@ const ProjectList = () => {
                         onValueChange={setSelectedCategory}
                       >
                         {categories.map((category, idx) => (
-                          <div key={idx} className="flex items-center gap-2">
+                          <div
+                            key={idx}
+                            className="flex items-center gap-3 cursor-pointer hover:bg-gray-100 p-2 rounded-md transition"
+                          >
                             <RadioGroupItem
                               value={category}
                               id={`r${idx + 1}`}
+                              className="border-gray-400"
                             />
-                            <Label htmlFor={`r${idx + 1}`}>{category}</Label>
+                            <Label
+                              htmlFor={`r${idx + 1}`}
+                              className="text-gray-700"
+                            >
+                              {category}
+                            </Label>
                           </div>
                         ))}
                       </RadioGroup>
                     </div>
                   </div>
+
+                  {/* Tag Filter */}
                   <div className="mt-4">
-                    <h1 className="pb-3 text-xl text-gray-600 border-b">Tag</h1>
+                    <h1 className="pb-3 text-lg text-gray-700 border-b">
+                      Tags
+                    </h1>
                     <div className="pt-5">
                       <RadioGroup
                         className="space-y-3 pt-5"
@@ -270,12 +289,19 @@ const ProjectList = () => {
                         onValueChange={setSelectedTag}
                       >
                         {tags.map((tag, idx) => (
-                          <div key={idx} className="flex items-center gap-2">
+                          <div
+                            key={idx}
+                            className="flex items-center gap-3 cursor-pointer hover:bg-gray-100 p-2 rounded-md transition"
+                          >
                             <RadioGroupItem
                               value={tag}
                               id={`r${idx + categories.length + 1}`}
+                              className="border-gray-400"
                             />
-                            <Label htmlFor={`r${idx + categories.length + 1}`}>
+                            <Label
+                              htmlFor={`r${idx + categories.length + 1}`}
+                              className="text-gray-700"
+                            >
                               {tag}
                             </Label>
                           </div>
@@ -287,19 +313,22 @@ const ProjectList = () => {
               </CardContent>
             </Card>
           </section>
-          <section className="projectListSerction w-full lg:w-[48rem]">
+
+          {/* Project List Section */}
+          <section className="projectListSection pt-4 lg:pt-0 lg:w-[60%]">
+            {/* Search Bar */}
             <div className="flex gap-2 items-center pb-5 justify-between">
-              <div className="relative p-0 w-full">
+              <div className="relative w-full">
                 <Input
-                  variant="blue"
-                  className="40% px-9"
+                  className="px-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
                   value={keyword}
                   onChange={(e) => setKeyword(e.target.value)}
                   placeholder="Search project..."
                 />
-                <MagnifyingGlassIcon className="absolute top-3 left-3.5 text-blue-600" />
+                <MagnifyingGlassIcon className="absolute top-2.5 left-3 text-blue-600 w-4 h-4" />
               </div>
             </div>
+
             <div>
               <div className="space-y-5 min-h-[74vh]">
                 {filteredProjects.length > 0 ? (
@@ -307,7 +336,9 @@ const ProjectList = () => {
                     <ProjectCard key={item?.id} project={item} />
                   ))
                 ) : (
-                  <p className="text-gray-500">No projects found.</p>
+                  <p className="text-gray-500 text-center mt-10">
+                    No projects found.
+                  </p>
                 )}
               </div>
             </div>

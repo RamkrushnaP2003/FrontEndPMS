@@ -77,7 +77,9 @@ const Navbar = ({ user }) => {
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="border border-gray-300 mt-[2px] cursor-pointer">
-            <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+            <Link to={"/auth/login"}>
+              <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+            </Link>
           </DropdownMenuContent>
         </DropdownMenu>
         <p>{user?.fullName.split(" ")[0]}</p>

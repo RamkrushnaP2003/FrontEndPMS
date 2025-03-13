@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Chatbox from "./Chatbox";
 import { ChatBubbleIcon } from "@radix-ui/react-icons";
 import { BotIcon } from "lucide-react";
 import Chatbot from "./Chatbot";
