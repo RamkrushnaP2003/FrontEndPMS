@@ -49,6 +49,10 @@ export const issueReducer = (state = initialState, action) => {
         issues: state.issues.map((issue) =>
           issue.id === action.issue.id ? action.issue : issue
         ),
+        issueDetails:
+          state.issueDetails?.id === action.issue.id
+            ? action.issue
+            : state.issueDetails,
       };
     case actionTypes.DELETE_ISSUE_SUCCESS:
       return {

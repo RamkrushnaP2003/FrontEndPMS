@@ -12,6 +12,7 @@ import {
   FETCH_PROJECT_SUCCESS,
   INVITE_TO_PROJECT_REQUEST,
   SEARCH_PROJECT_SUCCESS,
+  SOFT_DELETE_PROJECT_SUCCESS,
 } from "./ActionTypes";
 
 const initialState = {
@@ -85,6 +86,18 @@ export const projectReducer = (state = initialState, action) => {
         loading: false,
         projects: state.projects.filter(
           (project) => project.id !== action.payload
+        ),
+        error: null,
+      };
+
+    case SOFT_DELETE_PROJECT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        projects: state.projects.map((project) =>
+          project.id === action.payload.id
+            ? { ...project, status: action.payload.status }
+            : project
         ),
         error: null,
       };

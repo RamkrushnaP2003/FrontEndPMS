@@ -17,6 +17,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchIssueById, updateIssueStatus } from "@/redux/issue/Action";
 import { fetchComments } from "@/redux/comment/Action";
 import { fetchProjectById } from "@/redux/project/Action";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { PersonIcon } from "@radix-ui/react-icons";
+import UserList from "../user/UserList";
+import AssigneDetails from "./AssigneDetails";
 
 const IssueDetails = () => {
   const { projectId, issueId } = useParams();
@@ -26,17 +35,6 @@ const IssueDetails = () => {
 
   const handleUpdateIssueStatus = (status) => {
     dispatch(updateIssueStatus(issueId, status));
-  };
-
-  const getStatusText = (status) => {
-    if (status === "in-progress") {
-      return "In Progress";
-    } else if (status === "pending") {
-      return "To Do";
-    } else if (status === "done") {
-      return "Done";
-    }
-    return status;
   };
 
   useEffect(() => {
@@ -87,66 +85,7 @@ const IssueDetails = () => {
                 </SelectContent>
               </Select>
               <div className="border border-gray-200 rounded-lg ">
-                <p className=" py-3 px-5 bg-blue-100 rounded-t-md">Details</p>
-                <div className="p-5">
-                  <div className="space-y-7">
-                    <div className="flex gap-10 items-center">
-                      <p className="w-[5rem] text-gray-900">Assignee</p>
-                      <div className="flex items-center gap-3">
-                        <b>:</b>
-                        {issue.issueDetails?.assignee ? (
-                          <>
-                            <Avatar className="h-8 w-8">
-                              <AvatarFallback className="bg-blue-400 text-white">
-                                {issue.issueDetails?.assignee?.fullName[0] ||
-                                  "X"}
-                              </AvatarFallback>
-                            </Avatar>
-                            <p>
-                              {issue.issueDetails?.assignee.fullName ||
-                                "Not Assigned"}
-                            </p>
-                          </>
-                        ) : (
-                          <p>Not Assigned</p>
-                        )}
-                      </div>
-                    </div>
-                    <div className="flex gap-10 items-center">
-                      <p className="w-[5rem] text-gray-900">Labels</p>
-                      <p>
-                        <b>:</b>&nbsp;&nbsp;&nbsp;None
-                      </p>
-                    </div>
-                    <div className="flex gap-10 items-center">
-                      <p className="w-[5rem] text-gray-900">Status</p>
-                      <div>
-                        <b>:</b>&nbsp;&nbsp;&nbsp;
-                        <Badge className="bg-gray-800 text-white">
-                          {getStatusText(issue.issueDetails.status)}
-                        </Badge>
-                      </div>
-                    </div>
-                    <div className="flex gap-10 items-center">
-                      <p className="w-[5rem] text-gray-900">Release</p>
-                      <p>
-                        <b>:</b>&nbsp;&nbsp;&nbsp;10-04-2024
-                      </p>
-                    </div>
-                    <div className="flex gap-10 items-center">
-                      <p className="w-[5rem] text-gray-900">Reporter</p>
-                      <div className="flex items-center gap-3">
-                        <b>:</b>
-                        <Avatar className="font-semibold">
-                          <AvatarFallback className="bg-blue-700 text-white">
-                            {project.projectDetails?.owner?.fullName[0]}
-                          </AvatarFallback>
-                        </Avatar>
-                        <p>{project.projectDetails?.owner?.fullName}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <AssigneDetails issue={issue} project={project} />
               </div>
             </div>
           </div>

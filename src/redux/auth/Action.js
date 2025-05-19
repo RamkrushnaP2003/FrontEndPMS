@@ -5,6 +5,7 @@ import {
   GET_USER_REQUEST,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
+  LOGIN_FAILURE,
   LOGOUT,
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
@@ -74,6 +75,13 @@ export const getUser = () => async (dispatch) => {
     dispatch({ type: GET_USER_SUCCESS, payload: data });
   } catch (e) {
     console.error("Error fetching user:", e.response?.data || e.message);
+
+    const errorMessage = e.response?.data?.message || "";
+
+    if (errorMessage.includes("Invalid Token")) {
+      localStorage.removeItem("jwt");
+      window.location.href = "/auth/login";
+    }
     dispatch({ type: GET_USER_FAILURE, payload: e.message });
   }
 };

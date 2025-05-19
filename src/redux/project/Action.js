@@ -20,16 +20,20 @@ import {
 } from "./ActionTypes";
 
 export const fetchProjects =
-  ({ category, tag }) =>
+  ({ category, tag }, status) =>
   async (dispatch) => {
     dispatch({ type: FETCH_PROJECT_REQUEST });
     try {
-      const { data } = await api.get("/api/projects", {
+      const token = localStorage.getItem("jwt");
+      const { data } = await api.get("/api/projects/status/" + status, {
         params: { category, tag },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       dispatch({ type: FETCH_PROJECT_SUCCESS, projects: data });
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching projects:", error);
     }
   };
 
@@ -54,7 +58,7 @@ export const createProjects = (projectData) => async (dispatch) => {
   }
 };
 
-export const fetchProjectById = (id) => async (dispatch) => {
+export const fetchProjectById = (id, status) => async (dispatch) => {
   dispatch({ type: FETCH_PROJECT_BY_ID_REQUEST });
   try {
     const { data } = await api.get("/api/projects/" + id);
@@ -69,13 +73,28 @@ export const deleteProject = (id) => async (dispatch) => {
   try {
     const { data } = await api.delete("/api/projects/" + id, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`, // Ensure JWT is prefixed with 'Bearer'
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
       },
     });
 
     dispatch({ type: DELETE_PROJECT_SUCCESS, payload: id });
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const softDeleteProject = (id, status) => async (dispatch) => {
+  dispatch({ type: SOFT_DELETE_PROJECT_REQUEST });
+  try {
+    const { data } = await api.put(`/api/project/${id}/${status}`, null, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      },
+    });
+    dispatch({ type: SOFT_DELETE_PROJECT_SUCCESS, payload: data });
+  } catch (err) {
+    dispatch({ type: SOFT_DELETE_PROJECT_FAILED });
+    console.log(err);
   }
 };
 

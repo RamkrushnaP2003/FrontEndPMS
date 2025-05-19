@@ -48,13 +48,15 @@ const IssueList = ({ title, status, selectedUser }) => {
               )}
             </div>
           </div>
-          <div className="w-full p-3 bg-gray-100 rounded-b-lg">
-            <DialogTrigger>
-              <Button className="w-full border border-gray-400 bg-blue-600 text-white hover:bg-blue-700 cursor-pointer rounded-lg">
-                Create Issue <PlusIcon />
-              </Button>
-            </DialogTrigger>
-          </div>
+          {status == "pending" && (
+            <div className="w-full p-3 bg-gray-100 rounded-b-lg">
+              <DialogTrigger>
+                <Button className="w-full border border-gray-400 bg-blue-600 text-white hover:bg-blue-700 cursor-pointer rounded-lg">
+                  Create Issue <PlusIcon />
+                </Button>
+              </DialogTrigger>
+            </div>
+          )}
         </div>
         <DialogContent className="bg-white p-6 rounded-lg shadow-lg">
           <DialogHeader>

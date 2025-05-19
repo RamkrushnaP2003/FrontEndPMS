@@ -15,22 +15,45 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@radix-ui/react-dropdown-menu";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import CreateProject from "../projectList/CreateProject";
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { logout } from "@/redux/auth/Action";
 import logo from "../../assets/mainLogo.webp";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-const Navbar = ({ user }) => {
+const Navbar = () => {
   const dispatch = useDispatch();
-  console.log(user);
+  const navigate = useNavigate();
+
+  const user = useSelector((store) => store.auth.user);
 
   const handleLogout = () => {
     dispatch(logout());
     navigate("/auth/login");
   };
+
+  // Safely get first initial or fallback
+  const getUserInitial = () => {
+    if (
+      user?.fullName &&
+      typeof user.fullName === "string" &&
+      user.fullName.length > 0
+    ) {
+      return user.fullName.charAt(0).toUpperCase();
+    }
+    return "U";
+  };
+
+  // Safely get first name or fallback
+  const getUserFirstName = () => {
+    if (user?.fullName && typeof user.fullName === "string") {
+      return user.fullName.split(" ")[0];
+    }
+    return "User";
+  };
+
   return (
     <div className="border-b py-4 px-5 flex items-center justify-between sticky top-0 z-10 bg-white shadow-md shadow-gray-300">
       <div className="flex items-center gap-3">
@@ -46,6 +69,7 @@ const Navbar = ({ user }) => {
             </p>
           </div>
         </Link>
+
         <Dialog>
           <DialogTrigger>
             <Button className="cursor-pointer" variant="ghost">
@@ -56,12 +80,12 @@ const Navbar = ({ user }) => {
             <DialogHeader>
               <DialogTitle>Create New Project</DialogTitle>
             </DialogHeader>
-
             <DialogDescription>
               <CreateProject />
             </DialogDescription>
           </DialogContent>
         </Dialog>
+
         <Link to="/upgrade_plan">
           <Button className="cursor-pointer" variant="ghost">
             Upgrade
@@ -70,19 +94,19 @@ const Navbar = ({ user }) => {
       </div>
 
       <div className="flex gap-3 items-center">
-        <DropdownMenu className="hover:border-none">
+        <DropdownMenu>
           <DropdownMenuTrigger>
             <Avatar className="cursor-pointer rounded-full border border-gray-300">
-              <AvatarFallback>{user?.fullName[0]}</AvatarFallback>
+              <AvatarFallback>{getUserInitial()}</AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
+
           <DropdownMenuContent className="border border-gray-300 mt-[2px] cursor-pointer">
-            <Link to={"/auth/login"}>
-              <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
-            </Link>
+            <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <p>{user?.fullName.split(" ")[0]}</p>
+
+        <p>{getUserFirstName()}</p>
       </div>
     </div>
   );

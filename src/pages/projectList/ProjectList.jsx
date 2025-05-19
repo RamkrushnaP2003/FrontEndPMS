@@ -177,7 +177,7 @@ const ProjectList = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchProjects({}));
+    dispatch(fetchProjects({}, "true"));
   }, []);
 
   const [keyword, setKeyword] = useState("");

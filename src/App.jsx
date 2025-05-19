@@ -64,6 +64,8 @@ import { fetchProjects } from "./redux/project/Action";
 import UpgradeSuccess from "./pages/upgrade/UpgradeSuccess";
 import AcceptInvitation from "./pages/projectDetails/AcceptInvitation";
 import Chatroom from "./pages/chat/Chatroom";
+import Footer from "./pages/footer/Footer";
+import Contact from "./pages/footer/Contact";
 
 function App() {
   const dispatch = useDispatch();
@@ -76,7 +78,7 @@ function App() {
 
       if (storedJwt && storedJwt !== "null" && storedJwt !== "undefined") {
         await dispatch(getUser());
-        await dispatch(fetchProjects({}));
+        await dispatch(fetchProjects({}, "true"));
       }
     };
   }, []);
@@ -97,7 +99,9 @@ function App() {
             <Route path="/upgrade_plan/success" element={<UpgradeSuccess />} />
             <Route path="/accept_invitation" element={<AcceptInvitation />} />
             <Route path="/project/:id/Chatroom" element={<Chatroom />} />
+            <Route path="/contact" element={<Contact />} />
           </Routes>
+          <Footer />
         </div>
       ) : (
         <Routes>
