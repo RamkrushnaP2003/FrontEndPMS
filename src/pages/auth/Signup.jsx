@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { register } from "@/redux/auth/Action";
 import { Toaster } from "@/components/ui/sonner";
 import { Link, useNavigate } from "react-router-dom";
+import LoginNav from "../navbar/LoginNav";
 
 const SignupSchema = z
   .object({
@@ -61,105 +62,117 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex flex-col mt-8 justify-center items-center dark:bg-gray-900">
-      <Card className="w-[24rem] max-w-md p-4 border-gray-300 shadow-lg">
-        <CardHeader>
-          <CardTitle className="text-center text-2xl font-semibold">
-            Sign Up
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              {/* Full Name */}
-              <FormField
-                control={form.control}
-                name="fullName"
-                render={({ field }) => (
-                  <FormItem>
-                    <Label>Full Name</Label>
-                    <FormControl>
-                      <Input {...field} type="text" placeholder="John Doe" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* Email */}
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <Label>Email</Label>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="email"
-                        placeholder="johndoe@example.com"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* Password */}
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <Label>Password</Label>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="password"
-                        placeholder="Enter password"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* Confirm Password */}
-              <FormField
-                control={form.control}
-                name="confirmPassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <Label>Confirm Password</Label>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="password"
-                        placeholder="Confirm password"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* Submit Button */}
-              <Button type="submit" className="w-full cursor-pointer">
-                Sign Up
-              </Button>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
-      <div className="flex items-center mt-4">
-        <span className="text-gray-700">Already have account? &nbsp;</span>
-        <Link to="/auth/login">
-          <span className="cursor-pointer text-gray-900" variant="ghost">
-            login
-          </span>
+    <>
+      <div className="h-20 w-full border mb-2 flex items-center justify-center">
+        <Link to="/sprintly">
+          <p className="text-center font-semibold text-3xl bg-gradient-to-r from-red-700 pl-8 to-gray-900 bg-clip-text text-transparent">
+            Project Management System
+          </p>
         </Link>
       </div>
-    </div>
+      <div className="flex flex-col mt-8 justify-center items-center dark:bg-gray-900">
+        <Card className="w-[24rem] max-w-md p-4 border-gray-300 shadow-lg">
+          <CardHeader>
+            <CardTitle className="text-center text-2xl font-semibold">
+              Sign Up
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-4"
+              >
+                {/* Full Name */}
+                <FormField
+                  control={form.control}
+                  name="fullName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <Label>Full Name</Label>
+                      <FormControl>
+                        <Input {...field} type="text" placeholder="John Doe" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Email */}
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <Label>Email</Label>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="email"
+                          placeholder="johndoe@example.com"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Password */}
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <Label>Password</Label>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="password"
+                          placeholder="Enter password"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Confirm Password */}
+                <FormField
+                  control={form.control}
+                  name="confirmPassword"
+                  render={({ field }) => (
+                    <FormItem>
+                      <Label>Confirm Password</Label>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="password"
+                          placeholder="Confirm password"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Submit Button */}
+                <Button type="submit" className="w-full cursor-pointer">
+                  Sign Up
+                </Button>
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
+        <div className="flex items-center mt-4">
+          <span className="text-gray-700">Already have account? &nbsp;</span>
+          <Link to="/auth/login">
+            <span className="cursor-pointer text-gray-900" variant="ghost">
+              login
+            </span>
+          </Link>
+        </div>
+      </div>
+    </>
   );
 };
 

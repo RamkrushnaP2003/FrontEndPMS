@@ -48,9 +48,9 @@ const ProjectCard = ({ project }) => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-32 bg-white shadow-md border border-gray-200 rounded-md">
-                <DropdownMenuItem className="cursor-pointer px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md">
+                {/* <DropdownMenuItem className="cursor-pointer px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md">
                   Update
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
                 <DropdownMenuItem
                   className="cursor-pointer px-3 py-2 text-red-600 hover:bg-red-100 rounded-md"
                   onClick={() => handleDelete(project.id)}

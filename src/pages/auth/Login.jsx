@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "@/redux/auth/Action";
 import { Link, useNavigate } from "react-router-dom";
 import { Toaster } from "@/components/ui/sonner";
+import LoginNav from "../navbar/LoginNav";
 
 const Login = ({ onSuccess }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -52,7 +53,14 @@ const Login = ({ onSuccess }) => {
 
   return (
     <>
-      <div className="flex flex-col mt-8 items-center justify-center ">
+      <div className="h-20 w-full border mb-2 flex items-center justify-center">
+        <Link to="/sprintly">
+          <p className="text-center font-semibold text-3xl bg-gradient-to-r from-red-700 pl-8 to-gray-900 bg-clip-text text-transparent">
+            Project Management System
+          </p>
+        </Link>
+      </div>
+      <div className="flex flex-col mt-20 items-center justify-center ">
         <Card className="w-[24rem] p-4 shadow-md border border-gray-300 bg-white text-gray-900">
           <CardHeader>
             <CardTitle className="text-center text-xl font-semibold">

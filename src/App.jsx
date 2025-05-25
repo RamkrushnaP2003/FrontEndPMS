@@ -66,6 +66,8 @@ import AcceptInvitation from "./pages/projectDetails/AcceptInvitation";
 import Chatroom from "./pages/chat/Chatroom";
 import Footer from "./pages/footer/Footer";
 import Contact from "./pages/footer/Contact";
+import Terms from "./pages/footer/Terms";
+import Privacy from "./pages/footer/Privacy";
 
 function App() {
   const dispatch = useDispatch();
@@ -96,10 +98,12 @@ function App() {
               element={<IssueDetails />}
             />
             <Route path="/upgrade_plan" element={<Subscription />} />
-            <Route path="/upgrade_plan/success" element={<UpgradeSuccess />} />
+            {/* <Route path="/upgrade_plan/success" element={<UpgradeSuccess />} /> */}
             <Route path="/accept_invitation" element={<AcceptInvitation />} />
             <Route path="/project/:id/Chatroom" element={<Chatroom />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
           </Routes>
           <Footer />
         </div>
@@ -108,6 +112,7 @@ function App() {
           <Route path="/auth/login" element={<Login />} />
           <Route path="/auth/signup" element={<Signup />} />
           <Route path="/accept_invitation" element={<AcceptInvitation />} />
+          <Route path="/sprintly" element={<Contact />} />
         </Routes>
       )}
     </>

@@ -20,7 +20,7 @@ import CreateProject from "../projectList/CreateProject";
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { logout } from "@/redux/auth/Action";
-import logo from "../../assets/mainLogo.webp";
+import logo from "../../assets/PMSLogo.jpeg";
 import { useDispatch, useSelector } from "react-redux";
 
 const Navbar = () => {
@@ -51,6 +51,7 @@ const Navbar = () => {
     if (user?.fullName && typeof user.fullName === "string") {
       return user.fullName.split(" ")[0];
     }
+    window.location.reload();
     return "User";
   };
 
@@ -59,11 +60,11 @@ const Navbar = () => {
       <div className="flex items-center gap-3">
         <Link to="/home">
           <div className="flex flex-row items-center">
-            <Avatar>
-              <AvatarFallback>
-                <img src={logo} alt="logo" />
-              </AvatarFallback>
-            </Avatar>
+            {/* <Avatar className="mr-2">
+              <AvatarFallback> */}
+            <img src={logo} alt="logo" className="h-10 mr-2" />
+            {/* </AvatarFallback>
+            </Avatar> */}
             <p className="cursor-pointer font-semibold text-gray-900">
               Sprintly
             </p>
@@ -86,11 +87,11 @@ const Navbar = () => {
           </DialogContent>
         </Dialog>
 
-        <Link to="/upgrade_plan">
+        {/* <Link to="/upgrade_plan">
           <Button className="cursor-pointer" variant="ghost">
             Upgrade
           </Button>
-        </Link>
+        </Link> */}
       </div>
 
       <div className="flex gap-3 items-center">

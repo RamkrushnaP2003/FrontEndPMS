@@ -42,7 +42,6 @@ const ProjectDetails = () => {
 
   useEffect(() => {
     dispatch(fetchProjectById(id));
-    setSelectedUser(auth.user.id);
     dispatch(fetchIssues(id));
   }, []);
 
@@ -200,7 +199,9 @@ const ProjectDetails = () => {
                                 : "border-b border-blue-400 text-gray-900 hover:border-blue-400 hover:bg-blue-50 hover:text-blue-600"
                             }`}
                             variant="ghost"
-                            onClick={() => setSelectedUser(item.id)}
+                            onClick={() => {
+                              setSelectedUser(item.id);
+                            }}
                           >
                             {item.fullName.split(" ")[0]}
                           </Button>

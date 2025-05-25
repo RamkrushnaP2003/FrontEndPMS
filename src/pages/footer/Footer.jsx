@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Terms from "./Terms";
+import Privacy from "./Privacy";
 
 const Footer = () => {
   return (
