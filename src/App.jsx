@@ -175,7 +175,11 @@ function App() {
             <Route path="/upgrade_plan" element={<Subscription />} />
             <Route path="/upgrade_plan/success" element={<UpgradeSuccess />} />
             <Route path="/accept_invitation" element={<AcceptInvitation />} />
-            <Route path="/project/:id/Chatroom" element={<Chatroom />} />
+            <Route
+              path="/project/:id/chatroom"
+              element={<Chatroom isSeparate={true} />}
+            />
+            {/* <Route path="/project/:id/Chatroom" element< */}
             <Route path="/contact" element={<Contact isLoggedIn={true} />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/terms" element={<Terms />} />

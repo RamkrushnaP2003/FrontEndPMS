@@ -738,7 +738,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { fetchProjectById } from "@/redux/project/Action";
 import axios from "axios";
 import { UsersIcon, XIcon } from "lucide-react";
@@ -748,10 +748,14 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDownIcon, PaperPlaneIcon } from "@radix-ui/react-icons";
+import {
+  ChevronDownIcon,
+  PaperPlaneIcon,
+  ExternalLinkIcon,
+} from "@radix-ui/react-icons";
 import { UserGroupIcon } from "@heroicons/react/24/outline";
 
-const Chatroom = () => {
+const Chatroom = ({ isSeparate }) => {
   const dispatch = useDispatch();
   const { id } = useParams(); // Project ID
   const { auth, project } = useSelector((store) => store);
@@ -962,161 +966,213 @@ const Chatroom = () => {
   const openDialog = () => setIsDialogOpen(true);
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      {project?.projectDetails && (
-        <div className="w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden flex flex-col">
-          {/* Chat Header */}
-          <div className="bg-transparent flex justify-between items-center p-3">
-            <div className="text-gray-800">
-              {currentReceiver?.fullName ? (
-                <div className="flex items-center gap-2">
-                  <Avatar>
-                    <AvatarFallback className="bg-blue-400 text-white">
-                      {currentReceiver?.fullName[0]}
-                    </AvatarFallback>
-                  </Avatar>
-                  {currentReceiver?.fullName}
-                </div>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <Avatar>
-                    <AvatarFallback className="bg-blue-400 text-white">
-                      <UserGroupIcon className="h-4 w-4" />
-                    </AvatarFallback>
-                  </Avatar>
-                  Group Chat
-                </div>
-              )}
-            </div>
-            <DropdownMenu>
-              <DropdownMenuTrigger className="p-2 bg-blue-500 cursor-pointer text-white rounded-full hover:bg-blue-600 transition flex items-center">
-                <UsersIcon className="w-4 h-4" />
-                <ChevronDownIcon className="w-4 h-4" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                className="shadow-none border-0 w-48 p-1"
-                align="end" // Forces dropdown to align bottom-left
-                style={{ backgroundColor: "transparent" }} // Ensures transparency
-              >
-                <DropdownMenuItem
-                  className="cursor-pointer px-3 py-2 text-sm hover:bg-blue-100 rounded-md flex items-center"
-                  onClick={() => setCurrentReceiver(null)}
-                >
-                  <Avatar>
-                    <AvatarFallback className="font-semibold bg-blue-400 text-white">
-                      <UserGroupIcon className="text-white" />
-                    </AvatarFallback>
-                  </Avatar>
-                  <span className="ml-2 flex items-center flex-row">
-                    <span>Group Chat</span>
-                  </span>
-                </DropdownMenuItem>
-                {project?.projectDetails?.team?.map(
-                  (member) =>
-                    auth.user.id !== member.id && (
-                      <DropdownMenuItem
-                        key={member.id}
-                        className="cursor-pointer px-3 py-2 text-sm hover:bg-gray-200 rounded-md flex items-center"
-                        onClick={() => setCurrentReceiver(member)}
-                      >
-                        <Avatar>
-                          <AvatarFallback className="font-semibold bg-blue-400 text-white">
-                            {member.fullName[0]}
-                          </AvatarFallback>
-                        </Avatar>
-                        <span className="ml-2">{member.fullName}</span>
-                      </DropdownMenuItem>
-                    )
-                )}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-
-          {/* Chat Window */}
-          <div className="w-full flex flex-col h-[500px] scrollbar-none">
-            <div
-              className="p-4 flex-1 overflow-y-auto bg-gray-50 scrollbar-hide"
-              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+    <div className={isSeparate ? `flex flex-row w-[100%] h-[77.25vh]` : ""}>
+      {isSeparate && (
+        <div className="w-[25%]">
+          <div>
+            <p
+              className="cursor-pointer px-3 py-2 text-sm hover:bg-blue-100 flex items-center"
+              onClick={() => setCurrentReceiver(null)}
             >
-              <ul>
-                {(currentReceiver
-                  ? privateChats.get(currentReceiver.id)?.messages
-                  : publicChats
-                )?.map((chat, idx) =>
-                  auth.user.id !== chat.senderId ? (
-                    // Left-aligned (Received messages)
-                    <li
-                      key={idx}
-                      className="mb-2 flex items-end justify-start gap-2"
-                    >
-                      <Avatar>
-                        <AvatarFallback className="bg-gray-400 text-white ">
-                          {chat.senderName[0]}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <p className="font-semibold text-gray-700 text-xs">
-                          {chat.senderName}
-                        </p>
-                        <div className="p-2 bg-gray-300 text-black rounded-ss-xl rounded-e-xl">
-                          <p>{chat.content}</p>
-                          <div className="text-xs text-gray-600">
-                            {new Date(chat.createdAt).toLocaleTimeString()}
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                  ) : (
-                    // Right-aligned (Sent messages)
-                    <li
-                      key={idx}
-                      className="mb-2 flex items-end justify-end gap-2"
-                    >
-                      <div className="max-w-52">
-                        <p className="font-semibold text-gray-700 text-xs">
-                          {chat.senderName}
-                        </p>
-                        <div className="p-2 bg-blue-400 text-white rounded-s-xl rounded-tr-xl">
-                          <p>{chat.content}</p>
-                          <div className="text-xs text-blue-200 text-right">
-                            {new Date(chat.createdAt).toLocaleTimeString()}
-                          </div>
-                        </div>
-                      </div>
-                      <Avatar>
-                        <AvatarFallback className="bg-blue-500 text-white">
-                          {chat.senderName[0]}
-                        </AvatarFallback>
-                      </Avatar>
-                    </li>
-                  )
-                )}
-                <div ref={messageEndRef} />
-              </ul>
-            </div>
-
-            {/* Message Input */}
-            <div className="relative p-0">
-              <Input
-                placeholder="type message..."
-                className="py-7 border-b-0 border-x-0 rounded-none outline-none focus:outline-none focus:ring-0 focus-visible:ring-0 shadow-none"
-                type="text"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-              />
-
-              <Button
-                onClick={handleSendMessage}
-                className="absolute right-2 top-3 rounded-full"
-                size="icon"
-                variant="ghost"
-              >
-                <PaperPlaneIcon />
-              </Button>
-            </div>
+              <Avatar>
+                <AvatarFallback className="font-semibold bg-blue-400 text-white">
+                  <UserGroupIcon className="text-white h-6 w-6" />
+                </AvatarFallback>
+              </Avatar>
+              <span className="ml-2 flex items-center flex-row">
+                <span>Group Chat</span>
+              </span>
+            </p>
+            {project?.projectDetails?.team?.map(
+              (member) =>
+                auth.user.id !== member.id && (
+                  <p
+                    key={member.id}
+                    className="cursor-pointer px-3 py-2 text-sm hover:bg-gray-200 flex items-center"
+                    onClick={() => setCurrentReceiver(member)}
+                  >
+                    <Avatar>
+                      <AvatarFallback className="font-semibold bg-blue-400 text-white">
+                        {member.fullName[0]}
+                      </AvatarFallback>
+                    </Avatar>
+                    <span className="ml-2">{member.fullName}</span>
+                  </p>
+                )
+            )}
           </div>
         </div>
       )}
+      <div className="flex flex-col items-center justify-center w-[100%]">
+        {project?.projectDetails && (
+          <div
+            className={`w-full ${
+              isSeparate ? "" : "max-w-4xl"
+            } bg-white shadow-lg rounded-lg overflow-hidden flex flex-col`}
+          >
+            {/* Chat Header */}
+            <div className="bg-transparent flex justify-between items-center p-3">
+              <div className="text-gray-800">
+                {currentReceiver?.fullName ? (
+                  <div className="flex items-center gap-2">
+                    <Avatar>
+                      <AvatarFallback className="bg-blue-400 text-white">
+                        {currentReceiver?.fullName[0]}
+                      </AvatarFallback>
+                    </Avatar>
+                    {currentReceiver?.fullName}
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <Avatar>
+                      <AvatarFallback className="bg-blue-400 text-white">
+                        <UserGroupIcon className="h-4 w-4" />
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex items-center justify-center">
+                      <span>Group Chat</span>
+                      {!isSeparate && (
+                        <Link to={`/project/${id}/chatroom`}>
+                          {" "}
+                          <ExternalLinkIcon color="blue" />
+                        </Link>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+              {!isSeparate && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="p-2 bg-blue-500 cursor-pointer text-white rounded-full hover:bg-blue-600 transition flex items-center">
+                    <UsersIcon className="w-4 h-4" />
+                    <ChevronDownIcon className="w-4 h-4" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    className="shadow-none border-0 w-48 p-1"
+                    align="end" // Forces dropdown to align bottom-left
+                    style={{ backgroundColor: "transparent" }} // Ensures transparency
+                  >
+                    <DropdownMenuItem
+                      className="cursor-pointer px-3 py-2 text-sm hover:bg-blue-100 rounded-md flex items-center"
+                      onClick={() => setCurrentReceiver(null)}
+                    >
+                      <Avatar>
+                        <AvatarFallback className="font-semibold bg-blue-400 text-white">
+                          <UserGroupIcon className="text-white" />
+                        </AvatarFallback>
+                      </Avatar>
+                      <span className="ml-2 flex items-center flex-row">
+                        <span>Group Chat</span>
+                      </span>
+                    </DropdownMenuItem>
+                    {project?.projectDetails?.team?.map(
+                      (member) =>
+                        auth.user.id !== member.id && (
+                          <DropdownMenuItem
+                            key={member.id}
+                            className="cursor-pointer px-3 py-2 text-sm hover:bg-gray-200 rounded-md flex items-center"
+                            onClick={() => setCurrentReceiver(member)}
+                          >
+                            <Avatar>
+                              <AvatarFallback className="font-semibold bg-blue-400 text-white">
+                                {member.fullName[0]}
+                              </AvatarFallback>
+                            </Avatar>
+                            <span className="ml-2">{member.fullName}</span>
+                          </DropdownMenuItem>
+                        )
+                    )}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
+            </div>
+
+            {/* Chat Window */}
+            <div className="w-full flex flex-col h-[500px] scrollbar-none">
+              <div
+                className="p-4 flex-1 overflow-y-auto bg-gray-50 scrollbar-hide"
+                style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+              >
+                <ul>
+                  {(currentReceiver
+                    ? privateChats.get(currentReceiver.id)?.messages
+                    : publicChats
+                  )?.map((chat, idx) =>
+                    auth.user.id !== chat.senderId ? (
+                      // Left-aligned (Received messages)
+                      <li
+                        key={idx}
+                        className="mb-2 flex items-end justify-start gap-2"
+                      >
+                        <Avatar>
+                          <AvatarFallback className="bg-gray-400 text-white ">
+                            {chat.senderName[0]}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <p className="font-semibold text-gray-700 text-xs">
+                            {chat.senderName}
+                          </p>
+                          <div className="p-2 bg-gray-300 text-black rounded-ss-xl rounded-e-xl">
+                            <p>{chat.content}</p>
+                            <div className="text-xs text-gray-600">
+                              {new Date(chat.createdAt).toLocaleTimeString()}
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    ) : (
+                      // Right-aligned (Sent messages)
+                      <li
+                        key={idx}
+                        className="mb-2 flex items-end justify-end gap-2"
+                      >
+                        <div className="max-w-52">
+                          <p className="font-semibold text-gray-700 text-xs">
+                            {chat.senderName}
+                          </p>
+                          <div className="p-2 bg-blue-400 text-white rounded-s-xl rounded-tr-xl">
+                            <p>{chat.content}</p>
+                            <div className="text-xs text-blue-200 text-right">
+                              {new Date(chat.createdAt).toLocaleTimeString()}
+                            </div>
+                          </div>
+                        </div>
+                        <Avatar>
+                          <AvatarFallback className="bg-blue-500 text-white">
+                            {chat.senderName[0]}
+                          </AvatarFallback>
+                        </Avatar>
+                      </li>
+                    )
+                  )}
+                  <div ref={messageEndRef} />
+                </ul>
+              </div>
+
+              {/* Message Input */}
+              <div className="relative p-0">
+                <Input
+                  placeholder="type message..."
+                  className="py-7 border-b-0 border-x-0 rounded-none outline-none focus:outline-none focus:ring-0 focus-visible:ring-0 shadow-none"
+                  type="text"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                />
+
+                <Button
+                  onClick={handleSendMessage}
+                  className="absolute right-2 top-3 rounded-full"
+                  size="icon"
+                  variant="ghost"
+                >
+                  <PaperPlaneIcon />
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
