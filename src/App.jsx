@@ -176,7 +176,7 @@ function App() {
             <Route path="/upgrade_plan/success" element={<UpgradeSuccess />} />
             <Route path="/accept_invitation" element={<AcceptInvitation />} />
             <Route path="/project/:id/Chatroom" element={<Chatroom />} />
-            <Route path="/contact" element={<Contact />} />
+            <Route path="/contact" element={<Contact isLoggedIn={true} />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="*" element={<Navigate to="/home" />} />
@@ -188,7 +188,7 @@ function App() {
           <Route path="/auth/login" element={<Login />} />
           <Route path="/auth/signup" element={<Signup />} />
           <Route path="/accept_invitation" element={<AcceptInvitation />} />
-          <Route path="/sprintly" element={<Contact />} />
+          <Route path="/sprintly" element={<Contact isLoggedIn={false} />} />
           <Route path="*" element={<Navigate to="/auth/login" />} />
         </Routes>
       )}
