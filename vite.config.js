@@ -11,6 +11,19 @@ export default defineConfig({
     },
   },
   define: {
-    global: "window", // Fix SockJS issue with "global is not defined"
+    global: "window",
+  },
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:2024",
+        changeOrigin: true,
+        secure: false,
+      },
+      "/ws": {
+        target: "http://localhost:2024",
+        ws: true,
+      },
+    },
   },
 });
